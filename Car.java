@@ -9,6 +9,14 @@ abstract class Car implements Movable {
     private int direction = 0;
     protected double x, y = 0;
 
+    protected Car(int nrDoors, Color color, int enginePower, String modelName) {
+        this.nrDoors = nrDoors;
+        this.color = color;
+        this.enginePower = enginePower;
+        this.modelName = modelName;
+        stopEngine();
+    }
+
     public void move() {
         switch (direction) {
             case 0:
