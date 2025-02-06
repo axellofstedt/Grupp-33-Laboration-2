@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Volvo240Test {
-
+    //All tests are in TestCars.java
     @Test
     void speedTest() {
         Volvo240 v = new Volvo240();
@@ -33,7 +33,7 @@ class Volvo240Test {
         assertEquals(0, v.y);
     }
     @Test
-    void testCurrentSpeed() {
+    void testCurrentSpeedV() {
         // Checks that speed can't go beyond the car's engine power
         // and that using Car.gas won't decrease the speed
         Volvo240 v = new Volvo240();
@@ -44,4 +44,5 @@ class Volvo240Test {
         assertTrue(tempSpeed <= v.getCurrentSpeed());
         assertTrue(v.getCurrentSpeed() <= v.getEnginePower());
     }
+
 }
