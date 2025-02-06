@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 class Saab95Test {
-
+    //All tests are in TestCars.java
     @org.junit.jupiter.api.Test
     void testSpeeds() {
         Saab95 s = new Saab95();
