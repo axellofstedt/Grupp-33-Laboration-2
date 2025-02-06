@@ -1,5 +1,7 @@
 import java.awt.*;
 
+// i tiltFlatbed - throw error om knasigt argument
+
 public class Scania extends Car {
     private double flatbedAngle = 0;
 
@@ -36,7 +38,7 @@ public class Scania extends Car {
     }
 
     @Override
-    double speedFactor() {
+    protected double speedFactor() {
         return 1;
     }
 }
