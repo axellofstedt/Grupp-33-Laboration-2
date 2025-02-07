@@ -43,7 +43,7 @@ public class CarTransportTruck extends Car {
         else if (!(Math.abs(car.x - x) <= xRange && Math.abs(car.y - y) <= yRange)) {
             throw new InternalError("Car location is out of range");
         }
-        else if (!(car instanceof CarTransportTruck)) {
+        else if (car instanceof CarTransportTruck) {
             throw new InternalError("Can't load CarTransportTruck on CarTransportTruck");
         }
         else if (loadedCars.size() >= maxCars) {
