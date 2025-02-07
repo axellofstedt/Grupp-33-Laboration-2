@@ -105,9 +105,12 @@ public class TestCars {
         Scania s = new Scania();
         s.startEngine();
         s.gas(1);
-
         assertThrows(InternalError.class, () -> s.tiltFlatbed(45));
+    }
 
+    @org.junit.jupiter.api.Test
+    void testNoMoveTilting() {
+        Scania s = new Scania();
         s.stopEngine();
         s.tiltFlatbed(45);
         assertThrows(InternalError.class, () -> s.startEngine());
@@ -115,10 +118,11 @@ public class TestCars {
         s.startEngine();
         s.gas(1);
         s.stopEngine();
-        double tempAngle= s.getFlatbedAngle();
+        double tempAngle = s.getFlatbedAngle();
         s.tiltFlatbed(45);
         assertNotEquals(tempAngle, s.getFlatbedAngle());
     }
+
     //---------------CarTransportTest fr.o.m nu-------------------------
     @org.junit.jupiter.api.Test
     void testLoadCTonCT() {
