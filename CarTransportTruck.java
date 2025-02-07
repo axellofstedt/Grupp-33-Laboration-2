@@ -9,6 +9,7 @@ public class CarTransportTruck extends Car {
     private final int maxCars = 15;
     public final int xRange = 5;
     public final double yRange = 0.5;
+    private final double trimFactor = 1.02;
 
     Stack<Car> loadedCars = new Stack<>();
 
@@ -76,7 +77,7 @@ public class CarTransportTruck extends Car {
 
     @Override
     protected double speedFactor() {
-        return 1;
+        return trimFactor * enginePower;
     }
 
     @Override

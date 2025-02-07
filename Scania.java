@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class Scania extends Car {
     private double flatbedAngle = 0;
+    private final double trimfactor = 1.07;
 
     protected Scania() {
         super(2, Color.black, 1235, "Scania");
@@ -46,6 +47,6 @@ public class Scania extends Car {
 
     @Override
     protected double speedFactor() {
-        return 1;
+        return enginePower * trimfactor;
     }
 }
