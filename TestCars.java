@@ -1,3 +1,4 @@
+import com.sun.jdi.VoidValue;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -121,8 +122,87 @@ public class TestCars {
     //---------------CarTransportTest fr.o.m nu-------------------------
     @org.junit.jupiter.api.Test
     void testLoadCTonCT() {
-        CarTransportTruck CT = new CarTransportTruck();
+        CarTransportTruck CT1 = new CarTransportTruck();
+        CarTransportTruck CT2 = new CarTransportTruck();
+        assertThrows(InternalError.class, () -> CT1.loadCar(CT2));
 
+    }
+    @org.junit.jupiter.api.Test
+    void testTiltWhileMoving(){
+        CarTransportTruck ct = new CarTransportTruck();
+        ct.startEngine();
+        ct.gas(1);
+        assertThrows(InternalError.class, () -> ct.tiltFlatbed(true));
+    }
+    @org.junit.jupiter.api.Test
+    void testMoveWhileTilted(){
+        CarTransportTruck ct = new CarTransportTruck();
+        ct.tiltFlatbed(true);
+        assertThrows(InternalError.class, () -> ct.startEngine());
+        assertThrows(InternalError.class, () -> ct.gas(1));
+    }
+    @org.junit.jupiter.api.Test
+    void testLoadDownAndClose(){
+        CarTransportTruck ct = new CarTransportTruck();
+        Volvo240 v = new Volvo240();
+        ct.tiltFlatbed(true);
+        ct.loadCar(v);
+        assertNotEquals(0,ct.getLoadedCars().size());
 
+        ct.disengageCar();
+        ct.tiltFlatbed(false);
+        ct.startEngine();
+        ct.gas(1);
+        ct.gas(1);
+        ct.gas(1);
+        ct.move();
+        ct.stopEngine();
+        ct.tiltFlatbed(true);
+        assertThrows(InternalError.class,() ->ct.loadCar(v));
+    }
+    @org.junit.jupiter.api.Test
+    void testDisengageWhileMoving(){
+        CarTransportTruck ct = new CarTransportTruck();
+        Volvo240 v = new Volvo240();
+        ct.tiltFlatbed(true);
+        ct.loadCar(v);
+        ct.tiltFlatbed(false);
+        assertThrows(InternalError.class, () -> ct.disengageCar());
+        ct.tiltFlatbed(true);
+        ct.disengageCar();
+        assertEquals(ct.x - xRange, v.x);
+    }
+    @org.junit.jupiter.api.Test
+    void testDisengageInOrder() {
+        CarTransportTruck ct = new CarTransportTruck();
+        Volvo240 v = new Volvo240();
+        Saab95 s = new Saab95();
+        Scania sc = new Scania();
+
+        ct.tiltFlatbed(true);
+        ct.loadCar(v);
+        ct.loadCar(s);
+        ct.loadCar(sc);
+
+        assertEquals(sc, ct.getLoadedCars().peek());
+        ct.disengageCar();
+        assertEquals(s, ct.getLoadedCars().peek());
+        ct.disengageCar();
+        assertEquals(v, ct.getLoadedCars().peek());
+        ct.disengageCar();
+    }
+    @org.junit.jupiter.api.Test
+    void testTransportedCarXandY(){
+        CarTransportTruck ct = new CarTransportTruck();
+        Volvo240 v = new Volvo240();
+
+        ct.tiltFlatbed(true);
+        ct.loadCar(v);
+        ct.tiltFlatbed(false);
+        ct.startEngine();
+        ct.gas(1);
+        ct.move();
+        assertEquals(ct.x, v.x);
+        assertEquals(ct.y, v.y);
     }
 }
