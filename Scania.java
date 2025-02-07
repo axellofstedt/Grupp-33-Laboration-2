@@ -14,6 +14,7 @@ public class Scania extends Car {
         if (new_angle <= 70 && 0 <= new_angle && getCurrentSpeed() == 0) {
             flatbedAngle = new_angle;
         }
+        throw new InternalError("Scania cannot move or tilt the flatbed while driving");
     }
 
     public double getFlatbedAngle() {
@@ -24,7 +25,9 @@ public class Scania extends Car {
     public void startEngine() {
         if (flatbedAngle == 0) {
             super.startEngine();
+            return;
         }
+        throw new InternalError("Can't start engine with flatbed tilted");
     }
 
     // You can increase speed by just calling gas
@@ -34,7 +37,9 @@ public class Scania extends Car {
     public void gas(double amount) {
         if (flatbedAngle == 0) {
             super.gas(amount);
+            return;
         }
+        throw new InternalError("Can't gas with flatbed tilted");
     }
 
     @Override

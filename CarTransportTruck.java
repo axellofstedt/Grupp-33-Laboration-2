@@ -5,7 +5,11 @@ import java.util.Stack;
 // Behöver TESTER, lägg till throws på loadcar och tilt ig
 
 public class CarTransportTruck extends Car {
-    boolean flatbedUp = false;
+    private boolean flatbedDown = false;
+    private final int maxCars = 15;
+    public final int xRange = 5;
+    public final double yRange = 0.5;
+
     Stack<Car> loadedCars = new Stack<>();
 
     protected CarTransportTruck() {
@@ -14,24 +18,51 @@ public class CarTransportTruck extends Car {
 
     public void tiltFlatbed (boolean tilt) {
         if (getCurrentSpeed() == 0) {
-            flatbedUp = tilt;
+            flatbedDown = tilt;
+            return;
         }
+        throw new InternalError("Your speed has to be zero to tilt the flatbed");
+    }
+
+    public boolean getFlatbedDown() {
+        return flatbedDown;
+    }
+
+    public int getMaxCars() {
+        return maxCars;
+    }
+
+    public Stack<Car> getLoadedCars() {
+        return loadedCars;
     }
 
     public void loadCar(Car car) {
-        if (flatbedUp &&
-                Math.abs(car.x - x) <= 5 && Math.abs(car.y - y) <= 0.5 &&
-                !(car instanceof CarTransportTruck) && loadedCars.size() <= 15) {
+        if (!flatbedDown){
+            throw new InternalError("Flatbed has to be tilted down to load cars!");
+        }
+        else if (!(Math.abs(car.x - x) <= xRange && Math.abs(car.y - y) <= yRange)) {
+            throw new InternalError("Car location is out of range");
+        }
+        else if (!(car instanceof CarTransportTruck)) {
+            throw new InternalError("Can't load CarTransportTruck on CarTransportTruck");
+        }
+        else if (loadedCars.size() >= maxCars) {
+            throw new InternalError("Truck is full of cars");
+        }
+        else {
+            car.stopEngine();
             loadedCars.push(car);
         }
     }
 
     public void disengageCar() {
-        if (flatbedUp) {
+        if (flatbedDown) {
             Car car = loadedCars.pop();
-            car.x -= 5;
-            car.y -= 0.5;
+            car.x -= xRange;
+            car.y -= yRange;
+            return;
         }
+        throw new InternalError("Can't disengage car while flatbed is up!");
     }
 
     @Override
@@ -46,5 +77,26 @@ public class CarTransportTruck extends Car {
     @Override
     protected double speedFactor() {
         return 1;
+    }
+
+    @Override
+    public void startEngine() {
+        if (!flatbedDown) {
+            super.startEngine();
+            return;
+        }
+        throw new InternalError("Can't start engine with flatbed tilted");
+    }
+
+    // You can increase speed by just calling gas
+    // (without having used startEngine) for some reason
+    // so gas has to be overridden too I think
+    @Override
+    public void gas(double amount) {
+        if (!flatbedDown) {
+            super.gas(amount);
+            return;
+        }
+        throw new InternalError("Can't gas with flatbed tilted");
     }
 }
