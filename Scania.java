@@ -10,11 +10,13 @@ public class Scania extends Car {
     }
 
     public void tiltFlatbed(double angle) {
-        double new_angle = flatbedAngle + angle;
-        if (new_angle <= 70 && 0 <= new_angle && getCurrentSpeed() == 0) {
-            flatbedAngle = new_angle;
+        if (getCurrentSpeed() > 0) {
+            throw new InternalError("Cannot tilt flatbed while driving.");
         }
-        throw new InternalError("Scania cannot move or tilt the flatbed while driving");
+        else if (angle > 70 || angle < 0) {
+            throw new InternalError("Angle out of range (0-70)");
+        }
+        flatbedAngle = angle;
     }
 
     public double getFlatbedAngle() {
