@@ -1,10 +1,8 @@
-import com.sun.jdi.VoidValue;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.function.*;
 public class TestCars {
     //File that combines VolvoTest and SaabTest (Tests for Volvo ends with V and Saab with SB)
+    //<editor-fold desc="------------------------Volvo240Tests----------------------------------">
     @Test
     void speedTestV() {
         Volvo240 v = new Volvo240();
@@ -45,7 +43,9 @@ public class TestCars {
         assertTrue(tempSpeed <= v.getCurrentSpeed());
         assertTrue(v.getCurrentSpeed() <= v.getEnginePower());
     }
-    //--------------------Saab95Test fr.o.m nu--------------------------------
+    //</editor-fold>
+
+    //<editor-fold desc="------------------------Sabb95Tests------------------------------------">
     @org.junit.jupiter.api.Test
     void speedTestSB() {
         Saab95 s = new Saab95();
@@ -88,15 +88,17 @@ public class TestCars {
         assertTrue(tempSpeed <= s.getCurrentSpeed());
         assertTrue(s.getCurrentSpeed() <= s.getEnginePower());
     }
-    //---------------ScaniaTests fr.o.m nu----------------------------
+    //</editor-fold>
+
+    //<editor-fold desc="------------------------ScaniaTests------------------------------------">
     @org.junit.jupiter.api.Test
     void testAngleSC() {
         Scania s = new Scania();
         double tempAngle = s.getFlatbedAngle();
-        s.tiltFlatbed(-1);
-        assertEquals(tempAngle, s.getFlatbedAngle());
-        s.tiltFlatbed(91);
-        assertEquals(tempAngle, s.getFlatbedAngle());
+
+        assertThrows(InternalError.class, () -> s.tiltFlatbed(-1));
+
+        assertThrows(InternalError.class, () -> s.tiltFlatbed(91));
         s.tiltFlatbed(45);
         assertEquals(45,s.getFlatbedAngle());
     }
@@ -122,8 +124,10 @@ public class TestCars {
         s.tiltFlatbed(45);
         assertNotEquals(tempAngle, s.getFlatbedAngle());
     }
+    //</editor-fold>
 
-    //---------------CarTransportTest fr.o.m nu-------------------------
+    //<editor-fold desc="------------------------CarTransportTruckTests-------------------------">
+
     @org.junit.jupiter.api.Test
     void testLoadCTonCT() {
         CarTransportTruck CT1 = new CarTransportTruck();
@@ -209,4 +213,23 @@ public class TestCars {
         assertEquals(ct.x, v.x);
         assertEquals(ct.y, v.y);
     }
+    //</editor-fold>
+
+    //<editor-fold desc="------------------------AutoRepairShopTests----------------------------">
+    @org.junit.jupiter.api.Test
+    void testAddCarAdds() {
+        AutoRepairShop<Volvo240> autoRepairShop = new AutoRepairShop<>(5);
+        assertDoesNotThrow(() -> autoRepairShop.addCar(new Volvo240()));
+    }
+    @org.junit.jupiter.api.Test
+    void testRemoveNonExistentCar() {
+        AutoRepairShop<Volvo240> autoRepairShop = new AutoRepairShop<>(5);
+        Volvo240 v1 = new Volvo240();
+        Volvo240 v2 = new Volvo240();
+        autoRepairShop.addCar(v1);
+
+        assertThrows(InternalError.class, () -> autoRepairShop.getCar(v2));
+
+    }
+    //</editor-fold>
 }
