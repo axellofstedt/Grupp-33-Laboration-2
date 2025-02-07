@@ -170,7 +170,7 @@ public class TestCars {
         assertThrows(InternalError.class, () -> ct.disengageCar());
         ct.tiltFlatbed(true);
         ct.disengageCar();
-        assertEquals(ct.x - xRange, v.x);
+        assertEquals(ct.x - ct.xRange, v.x);
     }
     @org.junit.jupiter.api.Test
     void testDisengageInOrder() {
