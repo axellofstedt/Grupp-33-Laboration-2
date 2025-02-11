@@ -75,9 +75,13 @@ abstract class Car implements Movable {
     abstract double speedFactor();
 
     public void gas(double amount) {
-        if (0 <= amount && amount <= 1) {
+        if (0 <= amount && amount <= 1 && !this.isLoaded) {
             incrementSpeed(amount);
-        } else {
+        }
+        else if(this.isLoaded){
+            throw new IllegalArgumentException("Can't gas while loaded");
+        }
+        else {
             throw new IllegalArgumentException("Inappropriate value");
         }
     }

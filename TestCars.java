@@ -214,6 +214,16 @@ public class TestCars {
         assertEquals(ct.x, v.x);
         assertEquals(ct.y, v.y);
     }
+    @org.junit.jupiter.api.Test
+    void testGasCarWhileLoaded(){
+        CarTransportTruck ct = new CarTransportTruck();
+        Volvo240 v = new Volvo240();
+
+        ct.tiltFlatbed(true);
+        ct.loadCar(v);
+        ct.tiltFlatbed(false);
+        assertThrows(IllegalArgumentException.class,() ->v.gas(1));
+    }
     //</editor-fold>
 
     //<editor-fold desc="------------------------AutoRepairShopTests----------------------------">
