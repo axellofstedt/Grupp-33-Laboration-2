@@ -2,7 +2,7 @@ import java.awt.*;
 
 // i tiltFlatbed - throw error om knasigt argument
 
-public class Scania extends Car {
+public class Scania extends Car implements NonLoadable{
     private double flatbedAngle = 0;
 
     protected Scania() {

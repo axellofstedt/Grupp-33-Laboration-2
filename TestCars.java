@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class TestCars {
-    //File that combines VolvoTest and SaabTest (Tests for Volvo ends with V and Saab with SB)
+
     //<editor-fold desc="------------------------Volvo240Tests----------------------------------">
     @Test
     void speedTestV() {
@@ -129,11 +129,12 @@ public class TestCars {
     //<editor-fold desc="------------------------CarTransportTruckTests-------------------------">
 
     @org.junit.jupiter.api.Test
-    void testLoadCTonCT() {
+    void testLoadNonLoadable() {
         CarTransportTruck CT1 = new CarTransportTruck();
         CarTransportTruck CT2 = new CarTransportTruck();
+        Scania S = new Scania();
         assertThrows(InternalError.class, () -> CT1.loadCar(CT2));
-
+        assertThrows(InternalError.class, () -> CT1.loadCar(S));
     }
     @org.junit.jupiter.api.Test
     void testTiltWhileMoving(){

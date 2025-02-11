@@ -8,12 +8,14 @@ abstract class Car implements Movable {
     protected String modelName;
     private int direction = 0;
     protected double x, y = 0;
+    protected boolean isLoaded;
 
     protected Car(int nrDoors, Color color, int enginePower, String modelName) {
         this.nrDoors = nrDoors;
         this.color = color;
         this.enginePower = enginePower;
         this.modelName = modelName;
+        this.isLoaded = false;
         stopEngine();
     }
 

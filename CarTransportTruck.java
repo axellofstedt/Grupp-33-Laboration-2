@@ -4,7 +4,7 @@ import java.util.Stack;
 // Två näst sista punkterna på uppgift 2 är man lite tvehågsen på
 // Behöver TESTER, lägg till throws på loadcar och tilt ig
 
-public class CarTransportTruck extends Car {
+public class CarTransportTruck extends Car implements NonLoadable {
     private boolean flatbedDown = false;
     private final int maxCars = 15;
     public final int xRange = 5;
@@ -43,21 +43,26 @@ public class CarTransportTruck extends Car {
         else if (!(Math.abs(car.x - x) <= xRange && Math.abs(car.y - y) <= yRange)) {
             throw new InternalError("Car location is out of range");
         }
-        else if (car instanceof CarTransportTruck) {
+        else if (car instanceof NonLoadable) {
             throw new InternalError("Can't load CarTransportTruck on CarTransportTruck");
         }
         else if (loadedCars.size() >= maxCars) {
             throw new InternalError("Truck is full of cars");
         }
+        else if (car.isLoaded){
+            throw new InternalError("Car is already loaded on a transport truck");
+        }
         else {
             car.stopEngine();
             loadedCars.push(car);
+            car.isLoaded = true;
         }
     }
 
     public void disengageCar() {
         if (flatbedDown) {
             Car car = loadedCars.pop();
+            car.isLoaded = false;
             car.x -= xRange;
             car.y -= yRange;
             return;
