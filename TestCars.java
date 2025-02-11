@@ -184,20 +184,20 @@ public class TestCars {
     @org.junit.jupiter.api.Test
     void testDisengageInOrder() {
         CarTransportTruck ct = new CarTransportTruck();
-        Volvo240 v = new Volvo240();
+        Volvo240 v1 = new Volvo240();
         Saab95 s = new Saab95();
-        Scania sc = new Scania();
+        Volvo240 v2 = new Volvo240();
 
         ct.tiltFlatbed(true);
-        ct.loadCar(v);
+        ct.loadCar(v1);
         ct.loadCar(s);
-        ct.loadCar(sc);
+        ct.loadCar(v2);
 
-        assertEquals(sc, ct.getLoadedCars().peek());
+        assertEquals(v2, ct.getLoadedCars().peek());
         ct.disengageCar();
         assertEquals(s, ct.getLoadedCars().peek());
         ct.disengageCar();
-        assertEquals(v, ct.getLoadedCars().peek());
+        assertEquals(v1, ct.getLoadedCars().peek());
         ct.disengageCar();
     }
     @org.junit.jupiter.api.Test
